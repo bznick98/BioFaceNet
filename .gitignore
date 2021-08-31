@@ -1,3 +1,5 @@
 data/*
 .DS_Store
 misc.py
+checkpoints/*
+__pycache__/
