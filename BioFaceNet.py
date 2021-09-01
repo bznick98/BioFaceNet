@@ -1,4 +1,3 @@
-from loss import appearance_loss
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -14,11 +13,14 @@ from modules.biophysical_model import biophysical_model, read_new_skin_color
 
 
 class BioFaceNet(nn.Module):
-    def __init__(self):
+    def __init__(self, device=torch.device('cpu')):
         """
         basically a UNet plus fully connected branch from the lowest resolution
         """
         super().__init__()
+
+        # cpu/gpu
+        self.device = device
 
         # downsampling layers, down path double convolution
         self.down1 = self.double_conv(3, 32)
@@ -88,12 +90,15 @@ class BioFaceNet(nn.Module):
         # camera model initialization
         rgbCMF = read_camspec()
         self.camera_PC, self.camera_mean, self.camera_eigenvalues = camera_PCA(rgbCMF)
+        self.camera_PC, self.camera_mean, self.camera_eigenvalues = self.camera_PC.to(self.device), self.camera_mean.to(self.device), self.camera_eigenvalues.to(self.device)
 
         # biophysical model initialization
         self.new_skin_color = read_new_skin_color()
+        self.new_skin_color = self.new_skin_color.to(self.device)
 
         # Tmatrix initialization 128x128x9
         self.Tmatrix = self.read_Tmatrix()
+        self.Tmatrix = self.Tmatrix.to(self.device)
 
     def forward(self, image):
         """
@@ -260,6 +265,8 @@ class BioFaceNet(nn.Module):
 
         # illuminant model
         illumA, illumDNorm, illumFNorm = read_illum()
+        # move to specified device
+        illumA, illumDNorm, illumFNorm = illumA.to(self.device), illumDNorm.to(self.device), illumFNorm.to(self.device)
         e = illumination_model(weightA, weightD, Fweights, CCT, illumA, illumDNorm, illumFNorm)
 
         # camera model

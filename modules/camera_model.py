@@ -55,7 +55,7 @@ def camera_PCA(rgbCMF):
                     R, G, B channels, 33 represents 33 discretized bandwidths
                     from 400nm to 720nm, 28 represents 28 camera models measured
     @ouput:
-        PC, mean, eigenvalues: the first two PCA components and relative results
+        PC, mean, eigenvalues: the first two PCA components and relative results, all in type torch.Tensor
     """
     # read 3x33x28
     # rgbCMF = read_camspec()
@@ -91,22 +91,22 @@ def camera_PCA(rgbCMF):
 
     # print(PC.shape, eigenvalues.shape, mean.shape)
 
-    return PC, mean, eigenvalues
+    return torch.Tensor(PC), torch.Tensor(mean), torch.Tensor(eigenvalues)
 
 def camera_model(mu, PC, b, wavelength=33):
     """
     return e, Sr, Sg, Sb, resembles cameraModel func in Matlab
     @input:
-        mu: 99, mean value across features(wavelengths)
-        PC: 99x2, principle components (first two)
-        b: Nx2, camera parameters (2-dimensional vec)
-        wavelength: how many discretized wavelengths, default=33
+        mu: 99, mean value across features(wavelengths), torch.Tensor
+        PC: 99x2, principle components (first two), torch.Tensor
+        b: Nx2, camera parameters (2-dimensional vec), torch.Tensor
+        wavelength: how many discretized wavelengths, default=33, INT
     @output:
         Sr, Sg, Sb: Nx33x1x1
     """
     # vec(S(b)) = PC * diag(eigenvalues1, ...) + vec(mean(S))
-    PC = torch.Tensor(PC)
-    mu = torch.Tensor(mu)
+    # PC = torch.Tensor(PC)
+    # mu = torch.Tensor(mu)
     S = torch.matmul(b, PC.T) + mu
 
     # apply ReLU (keep positive part)

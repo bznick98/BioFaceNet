@@ -22,6 +22,8 @@ parser.add_argument('--lr', type=float, default=1e-5, help='learning rate')
 parser.add_argument('--test_forward', action='store_true', help='if enabled, test forward pass by feeding 1 image')
 parser.add_argument('--viz', action='store_true', help='if enabled, images of target/model output will be plotted every batch')
 parser.add_argument('--save_dir', type=str, default="checkpoints/", help='directory for saving trained model')
+parser.add_argument('--data_dir', type=str, default="data/", help='directory for training datasets')
+
 
 args = parser.parse_args()
 
@@ -34,19 +36,23 @@ def train(args):
 
     # data path lists
     inmc_list = [
-        'data/zx_7_d10_inmc_celebA_20.hdf5',
-        # 'data/zx_7_d10_inmc_celebA_05.hdf5',
+        'zx_7_d10_inmc_celebA_20.hdf5',
+        # 'zx_7_d10_inmc_celebA_05.hdf5',
     ]
     lrgb_list = [
-        'data/zx_7_d3_lrgb_celebA_20.hdf5',
-        # 'data/zx_7_d3_lrgb_celebA_05.hdf5',
+        'zx_7_d3_lrgb_celebA_20.hdf5',
+        # 'zx_7_d3_lrgb_celebA_05.hdf5',
     ]
+
+    # inserting data dir in the front of filename
+    inmc_list = [os.path.join(args.data_dir, fn) for fn in inmc_list]
+    lrgb_list = [os.path.join(args.data_dir, fn) for fn in lrgb_list]
 
     # trainin dataloader
     train_loader = CelebADataLoader(inmc_list, lrgb_list).loader
 
     # network
-    model = BioFaceNet()    
+    model = BioFaceNet(device=device)    
 
     # optimizer
     optim = SGD(
