@@ -27,7 +27,7 @@ class CelebADataset(Dataset):
         # preprocessing functions
         self.trans_3d = transforms.Compose([
             # transforms.ToTensor(), # to tensor, normalized to [0, 1]
-            transforms.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5)) # normalized to [-1, 1]
+            # transforms.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5)) # normalized to [-1, 1]
         ])
         self.trans_1d = transforms.Compose([
             # transforms.ToTensor(), # to tensor (will convert HxWxC to CxHxW)
@@ -150,7 +150,7 @@ class CelebADataset(Dataset):
         # convert shading from 3-channel to 1-channel(grayscale)
         to_grayscale = transforms.Compose([
             transforms.Grayscale(),
-            transforms.Normalize(mean=(0.5,), std=(0.5,)) # normalized to [-1, 1]
+            # transforms.Normalize(mean=(0.5,), std=(0.5,)) # normalized to [-1, 1]
         ])
         shading = to_grayscale(shading).float()
 
