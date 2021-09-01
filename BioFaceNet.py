@@ -506,26 +506,26 @@ class BioFaceNet(nn.Module):
             axes[i, 0].imshow(np.moveaxis((image[i]*mask[i]).cpu().detach().numpy(), 0, -1))
             axes[i, 0].axis('off')
 
-            axes[i, 1].imshow(np.moveaxis((actual_shading[i]*mask[i]).cpu().detach().numpy().squeeze(), 0, -1), cmap='gray')
+            axes[i, 1].imshow((actual_shading[i]*mask[i]).cpu().detach().numpy().squeeze(), cmap='gray')
             axes[i, 1].axis('off')
 
-            axes[i, 2].imshow(np.moveaxis(mask[i].cpu().detach().numpy().squeeze(), 0, -1), cmap='gray')
+            axes[i, 2].imshow((mask[i].cpu().detach().numpy().squeeze()), cmap='gray')
             axes[i, 2].axis('off')
 
             # Predicted visualization
             axes[i, 3].imshow(np.moveaxis((appearance[i]*mask[i]).cpu().detach().numpy(), 0, -1))
             axes[i, 3].axis('off')
 
-            axes[i, 4].imshow(np.moveaxis((pred_shading[i]*mask[i]).cpu().detach().numpy().squeeze(), 0, -1), cmap='gray')
+            axes[i, 4].imshow((pred_shading[i]*mask[i]).cpu().detach().numpy().squeeze(), cmap='gray')
             axes[i, 4].axis('off')
 
-            axes[i, 5].imshow(np.moveaxis((pred_specular[i]*mask[i]).cpu().detach().numpy().squeeze(), 0, -1), cmap='gray')
+            axes[i, 5].imshow((pred_specular[i]*mask[i]).cpu().detach().numpy().squeeze(), cmap='gray')
             axes[i, 5].axis('off')
 
-            axes[i, 6].imshow(np.moveaxis((fmel[i]*mask[i]).cpu().detach().numpy().squeeze(), 0, -1))
+            axes[i, 6].imshow((fmel[i]*mask[i]).cpu().detach().numpy().squeeze())
             axes[i, 6].axis('off')
 
-            axes[i, 7].imshow(np.moveaxis((fblood[i]*mask[i]).cpu().detach().numpy().squeeze(), 0, -1))
+            axes[i, 7].imshow((fblood[i]*mask[i]).cpu().detach().numpy().squeeze())
             axes[i, 7].axis('off')
 
         plt.axis('off')
