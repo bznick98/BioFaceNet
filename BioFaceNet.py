@@ -523,10 +523,12 @@ class BioFaceNet(nn.Module):
             axes[i, 5].imshow((pred_specular[i]*mask[i]).cpu().detach().numpy().squeeze(), cmap='gray')
             axes[i, 5].axis('off')
 
-            axes[i, 6].imshow((fmel[i]*mask[i]).cpu().detach().numpy().squeeze(), cmap=cmap)
+            # TEMP: Normalize to 0...1 when visualizing
+            axes[i, 6].imshow(((fmel[i]*mask[i] - torch.min(fmel[i]*mask[i]))/(torch.max(fmel[i]*mask[i]) - torch.min(fmel[i]*mask[i]))).cpu().detach().numpy().squeeze(), cmap=cmap)
             axes[i, 6].axis('off')
 
-            axes[i, 7].imshow((fblood[i]*mask[i]).cpu().detach().numpy().squeeze(), cmap=cmap)
+            # TEMP: Normalize to 0...1 when visualizing
+            axes[i, 7].imshow(((fblood[i]*mask[i] - torch.min(fblood[i]*mask[i]))/(torch.max(fblood[i]*mask[i]) - torch.min(fblood[i]*mask[i]))).cpu().detach().numpy().squeeze(), cmap=cmap)
             axes[i, 7].axis('off')
 
         plt.axis('off')
