@@ -5,6 +5,7 @@ import re
 import numpy as np
 import torch
 import scipy.io
+import torch.nn.functional as F
 
 from sklearn.decomposition import PCA
 
@@ -98,11 +99,11 @@ def camera_model(mu, PC, b, wavelength=33):
     return e, Sr, Sg, Sb, resembles cameraModel func in Matlab
     @input:
         mu: 99, mean value across features(wavelengths), torch.Tensor
-        PC: 99x2, principle components (first two), torch.Tensor
+        PC: 99x2, principle components (first two) of measured camera sensitivity database, torch.Tensor
         b: Nx2, camera parameters (2-dimensional vec), torch.Tensor
         wavelength: how many discretized wavelengths, default=33, INT
     @output:
-        Sr, Sg, Sb: Nx33x1x1
+        Sr, Sg, Sb: Nx33x1x1, camera sensitivity of each color channel
     """
     # vec(S(b)) = PC * diag(eigenvalues1, ...) + vec(mean(S))
     # PC = torch.Tensor(PC)
@@ -110,9 +111,10 @@ def camera_model(mu, PC, b, wavelength=33):
     S = torch.matmul(b, PC.T) + mu
 
     # apply ReLU (keep positive part)
-    S[S < 0] = 0 # (Batchsize, 99)
+    # S[S < 0] = 0 # (Batchsize, 99)
+    S = F.relu(S)
 
-    # split S into Sr, Sg, Sb
+    # split S(Nx99) into Sr, Sg, Sb(Nx33x1x1)
     Sr = S[:, :wavelength][..., None, None]
     Sg = S[:, wavelength:wavelength*2][..., None, None]
     Sb = S[:, wavelength*2:wavelength*3][..., None, None]
