@@ -498,9 +498,9 @@ class BioFaceNet(nn.Module):
             None, plotting 5x8 plots, plot will last 7 seconds and close itself
         """
         fig, axes = plt.subplots(num, 8)
-        fig.suptitle("Sample {} images from decode output as training progress with order:\n\
-            Target(first three), Predicted(the rest)\n\
-                Input Image, Computed Shading, Mask | Pred Appearance, Pred Shading, Pred Spec, Pred Fmel, Pred Fblood".format(num))
+        # fig.suptitle("Sample {} images from decode output as training progress with order:\n\
+        #     Target(first three), Predicted(the rest)\n\
+        #         Input Image, Computed Shading, Mask | Pred Appearance, Pred Shading, Pred Spec, Pred Fmel, Pred Fblood".format(num))
         for i in range(num):
             # Target visualization
             axes[i, 0].imshow(np.moveaxis((image[i]*mask[i]).cpu().detach().numpy(), 0, -1))

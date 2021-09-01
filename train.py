@@ -23,9 +23,8 @@ parser.add_argument('--test_forward', action='store_true', help='if enabled, tes
 parser.add_argument('--viz', action='store_true', help='if enabled, images of target/model output will be plotted every batch')
 parser.add_argument('--save_dir', type=str, default="checkpoints/", help='directory for saving trained model')
 parser.add_argument('--data_dir', type=str, default="data/", help='directory for training datasets')
-
-
 args = parser.parse_args()
+
 
 def train(args):
     # make directory for checkpoints saving
@@ -107,7 +106,7 @@ def train(args):
         save_path = os.path.join(args.save_dir, ckpt_filename)
         state = {
             'epoch':epoch,
-            'state_dict':model.state_dict(), # use model.load_state_dict(torch.load(XX)) when resume trainig
+            'state_dict':model.state_dict(), # use model.load_state_dict(torch.load(XX)) when resume training
         }
         torch.save(state, save_path)
 
