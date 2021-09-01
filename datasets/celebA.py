@@ -38,9 +38,9 @@ class CelebADataset(Dataset):
         for i, fp in enumerate(inmc_list):
             self.inmc_hdf5 = h5py.File(fp, 'r')
             if i == 0:
-                self.imgs = self.inmc_hdf5['zx_7']
+                self.imgs = np.array(self.inmc_hdf5['zx_7'])
             else:
-                self.imgs = torch.cat((self.imgs, self.inmc_hdf5['zx_7']))
+                self.imgs = np.concatenate((self.imgs, self.inmc_hdf5['zx_7']))
         self.len = self.imgs.shape[0]
 
         # reading lrgb hdf5
@@ -49,7 +49,7 @@ class CelebADataset(Dataset):
             if i == 0:
                 self.lrgbs = self.lrgb_hdf5['zx_7']
             else:
-                self.lrgbs = torch.cat((self.lrgbs, self.lrgb_hdf5['zx_7']))
+                self.lrgbs = np.concatenate((self.lrgbs, self.lrgb_hdf5['zx_7']))
 
         # number of inmc data should equal that of lrgb data
         assert self.len == self.lrgbs.shape[0]
