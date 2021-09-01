@@ -314,7 +314,7 @@ class BioFaceNet(nn.Module):
             [3.2406, -1.537, -0.498],
             [-0.968, 1.8758, 0.0415],
             [0.0557, -0.204, 1.0570]
-        ])
+        ]).to(self.device)
 
         # perform temp move axis for matrix multiply, Ixyz: NxHxWx3
         Ixyz = torch.moveaxis(Ixyz, 1, -1)
