@@ -100,7 +100,7 @@ def train(args):
                 optim.step()
 
                 # update info
-                tepoch.set_postfix(epoch="{}/{}".format(epoch+1, args.epochs), loss=batch_loss.detach().numpy())
+                tepoch.set_postfix(epoch="{}/{}".format(epoch+1, args.epochs), loss=batch_loss.cpu().detach().numpy())
 
         # save model each epoch
         ckpt_filename = "model_checkpoint_{}.pt".format(epoch)
