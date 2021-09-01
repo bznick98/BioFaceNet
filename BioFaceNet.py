@@ -488,12 +488,13 @@ class BioFaceNet(nn.Module):
 
         return weightA, weightD, CCT, Fweights, b, fmel, fblood, shading, spec, BGrid
 
-    def visualize_training_progress(self, image, actual_shading, mask, appearance, pred_shading, pred_specular, fmel, fblood, num=5):
+    def visualize_training_progress(self, image, actual_shading, mask, appearance, pred_shading, pred_specular, fmel, fblood, num=5, cmap='cividis'):
         """
         visualize targets and predicted map every batch
         @input:
             same as model's outputs and targets
             num: number of samples to show (rows in plots, default=5)
+            cmap: only for fmel & fblood, string of color map accepted by matplotlib (https://matplotlib.org/stable/tutorials/colors/colormaps.html)
         @output:
             None, plotting 5x8 plots, plot will last 7 seconds and close itself
         """
@@ -522,10 +523,10 @@ class BioFaceNet(nn.Module):
             axes[i, 5].imshow((pred_specular[i]*mask[i]).cpu().detach().numpy().squeeze(), cmap='gray')
             axes[i, 5].axis('off')
 
-            axes[i, 6].imshow((fmel[i]*mask[i]).cpu().detach().numpy().squeeze())
+            axes[i, 6].imshow((fmel[i]*mask[i]).cpu().detach().numpy().squeeze(), cmap=cmap)
             axes[i, 6].axis('off')
 
-            axes[i, 7].imshow((fblood[i]*mask[i]).cpu().detach().numpy().squeeze())
+            axes[i, 7].imshow((fblood[i]*mask[i]).cpu().detach().numpy().squeeze(), cmap=cmap)
             axes[i, 7].axis('off')
 
         plt.axis('off')

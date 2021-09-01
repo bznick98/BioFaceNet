@@ -98,7 +98,7 @@ def camera_model(mu, PC, b, wavelength=33):
     """
     return e, Sr, Sg, Sb, resembles cameraModel func in Matlab
     @input:
-        mu: 99, mean value across features(wavelengths), torch.Tensor
+        mu: 99, mean value across cameras(28), torch.Tensor
         PC: 99x2, principle components (first two) of measured camera sensitivity database, torch.Tensor
         b: Nx2, camera parameters (2-dimensional vec), torch.Tensor
         wavelength: how many discretized wavelengths, default=33, INT
