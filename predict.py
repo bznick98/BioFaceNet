@@ -15,10 +15,10 @@ from BioFaceNet import BioFaceNet
 # argument parsing
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument('--model_dir', type=str, default="checkpoints/", help='image filepath for model input')
-parser.add_argument('--epoch', type=int, default=-1, help='specifies which epoch to use under checkpoints/')
 parser.add_argument('--image_path', type=str, default="utils/test_img.png", help='image filepath for model input')
-parser.add_argument('--output_path', type=str, default="predicted_output/", help='directory for training datasets')
+parser.add_argument('--model_dir', type=str, default="checkpoints/", help='image filepath for model input')
+parser.add_argument('--epoch', type=int, default=-1, help='an int, specifies which epoch to use under checkpoints/')
+parser.add_argument('--output_path', type=str, default="predicted_output/", help='directory for saving output maps')
 args = parser.parse_args()
 
 
