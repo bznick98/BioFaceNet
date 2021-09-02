@@ -64,25 +64,36 @@ BioFaceNet.ipynb is essentially a modified train.py, all the other related code 
 ```
 ![Adding-shortcut-to-your-own-gdrive](readme-imgs/shortcut.png)
 ```Bash
-# Execute each cells or Run All.
-# Models will be saved at /content/BioFaceNet/checkpoints/
+# Proceed to Google Colab
+"""
+Executing cell by cell or run all, models will be saved at '/content/BioFaceNet/checkpoints/'
+"""
 ```
 
 ## Predict
 ### Predict on Local Machine:
 ```Bash
-python predict.py <image_filepath> [optional arguments]
+# See python predict.py -h or argparser for detail, will use utils/test_img.png as input by default
+python predict.py [optional args]
 ```
 ### Predict on Google Colab:
 ```Bash
-...
+"""
+Executing predict cell
+"""
 ```
 
 # Results
 ## Training Setup
-I used a subset of the data listed in Google Drive ('20' & '05'), where there are approximately 12k data samples. each training sample consists of a 3-channel rgb image, 3-channel normal map, 1-channel shading map, 3-channel spherical harmonics parameters map, as well as a vector of size 9 for lighting parameters. I trained without image augmentation for 20 epochs. 
+I used a subset of the data listed in Google Drive ('20' & '05'), where there are approximately 12k data samples. 
+
+Each training sample consists of a 3-channel rgb image, 3-channel normal map, 1-channel shading map, 3-channel spherical harmonics parameters map, as well as a vector of size 9 for lighting parameters. I trained without image augmentation for 20 epochs. 
 
 ## Results Interpretation
-As you can see in the training progress visualization, reconstructed image are somewhat blurred in the first few epochs. Near the end of training, the reconstructed image is really close to the original image. The specular maps it produces are also visually reasonable. Since I didn't implement the testing benchmarks using ISET multi-spectral dataset proposed by the paper, I couldn't know how well or bad the model predicts the melanin and haemoglobin maps. But from the prediction visualizations, I could tell the melanin maps focuses on the darker part of the skin (such as hair, eye areas, even shaded/occluded areas), and haemoglobin maps focuses more on the whole face area.
+As you can see in the training progress visualization, reconstructed image are somewhat blurred in the first few epochs. ![first-epoch](readme-imgs/first_epoch.png) (The columns from left to right are: Input image, Actual Shading, Mask, Predicted Face, Predicted Shading, Predicted Specular, Melanin Map, Haemoglobin Map) 
+
+Near the end of training, the reconstructed image is really close to the original image. The specular maps it produces are also visually reasonable. ![final-epoch](readme-imgs/final_epoch.png) Since I didn't implement the testing benchmarks using ISET multi-spectral dataset proposed by the paper, I couldn't know how well or bad the model predicts the melanin and haemoglobin maps. But from the prediction visualizations, I could tell the melanin maps focuses on the darker part of the skin (such as hair, eye areas, even shaded/occluded areas), and haemoglobin maps focuses more on the whole face area.
+
 
 ## More Results
+Inference results using my face: ![infer-result](readme-imgs/infer_result.png)
