@@ -1,12 +1,10 @@
 # BioFaceNet Pytorch Implementation
 ## Introduction
----
 This is a pytorch implementation of the paper: [BioFaceNet: Deep Biophysical Face
 Image Interpretation](https://arxiv.org/pdf/1908.10578.pdf). 
 
 
 ## How to Run (train/predict)
----
 ### Training: 
 #### On local machine:
 ```Bash
