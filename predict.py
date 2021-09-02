@@ -30,12 +30,14 @@ def predict(args):
     image = Image.open(args.image_path).convert('RGB').resize((64, 64))
     # convert to [0...1] as floats
     image = torchvision.transforms.functional.to_tensor(image)[None, ...]
+    image.to(device)
 
     print(image.shape)
 
     # init model
     model = BioFaceNet(device=device)
     model.eval()
+    model.to(device)
 
     # get which saved model to use, default use last epoch
     model_list = os.listdir(args.model_dir)
