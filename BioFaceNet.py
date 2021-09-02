@@ -503,7 +503,10 @@ class BioFaceNet(nn.Module):
         """
         # determine visualization size, recommend (8, 6) for local, (16, 12) for Colab
         fig_size = (8, 6)
-        if self.viz_big: fig_size = (16, 12) # really big
+        fontsize = 7
+        if self.viz_big:
+            fig_size = (16, 12) # really big
+            fontsize = 9
 
         fig, axes = plt.subplots(num, 8, figsize=fig_size)
         # fig.suptitle("Sample {} images from decode output as training progress with order:\n\
@@ -514,7 +517,7 @@ class BioFaceNet(nn.Module):
             # add column header
             if i == 0:
                 for col in range(8):
-                    axes[i, col].set_title(title_list[col], fontsize=7)
+                    axes[i, col].set_title(title_list[col], fontsize=fontsize)
             # Target visualization
             axes[i, 0].imshow(np.moveaxis((image[i]*mask[i]).cpu().detach().numpy(), 0, -1))
             axes[i, 0].axis('off')
