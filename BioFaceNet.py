@@ -13,7 +13,7 @@ from modules.biophysical_model import biophysical_model, read_new_skin_color
 
 
 class BioFaceNet(nn.Module):
-    def __init__(self, device=torch.device('cpu')):
+    def __init__(self, device=torch.device('cpu'), viz_big=False):
         """
         basically a UNet plus fully connected branch from the lowest resolution
         """
@@ -21,6 +21,9 @@ class BioFaceNet(nn.Module):
 
         # cpu/gpu
         self.device = device
+
+        # if set to True, visualization will plot larger image, recommend toggle this if using Google Colab
+        self.viz_big = viz_big
 
         # downsampling layers, down path double convolution
         self.down1 = self.double_conv(3, 32)
@@ -498,7 +501,11 @@ class BioFaceNet(nn.Module):
         @output:
             None, plotting 5x8 plots, plot will last 7 seconds and close itself
         """
-        fig, axes = plt.subplots(num, 8, figsize=(16, 12))
+        # determine visualization size, recommend (8, 6) for local, (16, 12) for Colab
+        fig_size = (8, 6)
+        if self.viz_big: fig_size = (16, 12) # really big
+
+        fig, axes = plt.subplots(num, 8, figsize=fig_size)
         # fig.suptitle("Sample {} images from decode output as training progress with order:\n\
         #     Target(first three), Predicted(the rest)\n\
         #         Input Image, Computed Shading, Mask | Pred Appearance, Pred Shading, Pred Spec, Pred Fmel, Pred Fblood".format(num))
