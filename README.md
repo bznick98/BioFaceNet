@@ -5,7 +5,7 @@ Image Interpretation](https://arxiv.org/pdf/1908.10578.pdf).
 
 
 ## How to Run (train/predict)
-### Training: 
+### Train
 #### On local machine:
 ```Bash
 # Clone this repo
@@ -55,3 +55,15 @@ BioFaceNet.ipynb is essentially a modified train.py, all the other related code 
 # Execute each cells or Run All.
 # Models will be saved at /content/BioFaceNet/checkpoints/
 ```
+
+### Predict
+#### On local machine:
+```Bash
+python predict.py <image_filepath> [optional arguments]
+```
+#### On Google Colab:
+```Bash
+...
+```
+
+# Demo
