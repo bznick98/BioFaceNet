@@ -551,6 +551,58 @@ class BioFaceNet(nn.Module):
         plt.pause(7)
         plt.close()
 
+    def visualize_output(self, image, appearance, pred_shading, pred_specular, fmel, fblood, num=1, cmap='cividis'):
+        """
+        visualize actual input image and predicted outputs
+        @input:
+            same as model's outputs and targets
+            num: number of samples to show (rows in plots, default=1)
+            cmap: only for fmel & fblood, string of color map accepted by matplotlib (https://matplotlib.org/stable/tutorials/colors/colormaps.html)
+        @output:
+            None, plotting 1x6 plots
+        """
+        # determine visualization size, recommend (8, 6) for local, (16, 12) for Colab
+        fig_size = (8, 6)
+        fontsize = 7
+        if self.viz_big:
+            fig_size = (16, 12) # really big
+            fontsize = 9
+
+        fig, axes = plt.subplots(num, 6, figsize=fig_size)
+        # fig.suptitle("Sample {} images from decode output as training progress with order:\n\
+        #     Target(first three), Predicted(the rest)\n\
+        #         Input Image, Computed Shading, Mask | Pred Appearance, Pred Shading, Pred Spec, Pred Fmel, Pred Fblood".format(num))
+        title_list = ['Input', 'Pred Face', 'Pred Shading', 'Pred Specular', 'fmel', 'fblood']
+        for i in range(num):
+            # add column header
+            for col in range(6):
+                axes[col].set_title(title_list[col], fontsize=fontsize)
+            # Target visualization
+            axes[0].imshow(np.moveaxis((image[i]).cpu().detach().numpy(), 0, -1))
+            axes[0].axis('off')
+
+            # Preted visualization
+            axes[1].imshow(np.moveaxis((appearance[i]).cpu().detach().numpy(), 0, -1))
+            axes[1].axis('off')
+
+            axes[2].imshow((pred_shading[i]).cpu().detach().numpy().squeeze(), cmap='gray')
+            axes[2].axis('off')
+
+            axes[3].imshow((pred_specular[i]).cpu().detach().numpy().squeeze(), cmap='gray')
+            axes[3].axis('off')
+
+            # TEMNormalize to 0...1 when visualizing, no mask when predicting, so this normalization might be a little bit off for real face region
+            axes[4].imshow(((fmel[i] - torch.min(fmel[i]))/(torch.max(fmel[i]) - torch.min(fmel[i]))).cpu().detach().numpy().squeeze(), cmap=cmap)
+            axes[4].axis('off')
+
+            # TEMNormalize to 0...1 when visualizing, no mask when predicting, so this normalization might be a little bit off for real face region
+            axes[5].imshow(((fblood[i] - torch.min(fblood[i]))/(torch.max(fblood[i]) - torch.min(fblood[i]))).cpu().detach().numpy().squeeze(), cmap=cmap)
+            axes[5].axis('off')
+
+        plt.axis('off')
+        plt.show()
+
+
 # ONLY FOR TESTING
 if __name__ == "__main__":
     test_image = torch.rand((1, 3, 64, 64))
