@@ -1,12 +1,24 @@
-# BioFaceNet Pytorch Implementation
-## Introduction
+# Introduction
 This is a pytorch implementation of the paper: [BioFaceNet: Deep Biophysical Face
-Image Interpretation](https://arxiv.org/pdf/1908.10578.pdf). 
+Image Interpretation](https://arxiv.org/pdf/1908.10578.pdf). Either run locally or use BioFaceNet.ipynb for running on Google Colab.
 
+# Table of Contents
+* 1\. [Introduction](#introduction)
+* 2\. [How to Run](#how-to-run-trainpredict)
+    * 2.1\. [Train](#train)
+        * 2.1.1\. [On Local Machine](#on-local-machine)
+        * 2.1.2\. [On Google Colab](#on-google-colab)
+    * 2.2\. [Predict](#predict)
+        * 2.2.1\. [On Local Machine](#predict-on-local-machine)
+        * 2.2.2\. [On Google Colab](#predict-on-google-colab)
+* 3\. [Results](#results)
+    * 3.1\. [Training Setup](#training-setup)
+    * 3.2\. [Results Interpretation](#results-interpretation)
+    * 3.3\. [More Results](#more-results)
 
-## How to Run (train/predict)
-### Train
-#### On local machine:
+# How to Run (train/predict)
+## Train
+### On Local Machine:
 ```Bash
 # Clone this repo
 git clone https://github.com/bznick98/BioFaceNet.git
@@ -26,7 +38,7 @@ Modify inmc_list and lrgb_list in function train() in train.py
 
 # [Optional] Set hyperparameters if not want to use default setting
 """
-Hyperparameters can be modified by calling train.py with different arguments, see argparse part of train.py or executing 'python train.py -h' for detail.
+Hyperparameters can be modified by executing train.py with different arguments, see argparse part of train.py or execute 'python train.py -h' for detail.
 """
 
 # Training
@@ -35,7 +47,7 @@ python train.py  # [with optional args]
 # Models will be saved at checkpoints/ every epoch
 ```
 
-#### On Google Colab:
+### On Google Colab:
 ```Bash
 # Open BioFaceNet.ipynb using Google Colab
 """
@@ -56,14 +68,21 @@ BioFaceNet.ipynb is essentially a modified train.py, all the other related code 
 # Models will be saved at /content/BioFaceNet/checkpoints/
 ```
 
-### Predict
-#### On local machine:
+## Predict
+### Predict on Local Machine:
 ```Bash
 python predict.py <image_filepath> [optional arguments]
 ```
-#### On Google Colab:
+### Predict on Google Colab:
 ```Bash
 ...
 ```
 
-# Demo
+# Results
+## Training Setup
+I used a subset of the data listed in Google Drive ('20' & '05'), where there are approximately 12k data samples. each training sample consists of a 3-channel rgb image, 3-channel normal map, 1-channel shading map, 3-channel spherical harmonics parameters map, as well as a vector of size 9 for lighting parameters. I trained without image augmentation for 20 epochs. 
+
+## Results Interpretation
+As you can see in the training progress visualization, reconstructed image are somewhat blurred in the first few epochs. Near the end of training, the reconstructed image is really close to the original image. The specular maps it produces are also visually reasonable. Since I didn't implement the testing benchmarks using ISET multi-spectral dataset proposed by the paper, I couldn't know how well or bad the model predicts the melanin and haemoglobin maps. But from the prediction visualizations, I could tell the melanin maps focuses on the darker part of the skin (such as hair, eye areas, even shaded/occluded areas), and haemoglobin maps focuses more on the whole face area.
+
+## More Results
