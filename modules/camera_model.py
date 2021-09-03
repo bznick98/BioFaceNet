@@ -73,7 +73,7 @@ def camera_PCA(rgbCMF):
         X[33:66, i] = greenS[:, i] / np.sum(greenS[:, i])
         X[66:99, i] = blueS[:, i] / np.sum(blueS[:, i])
 
-    X = X.T # (28, 99)
+    # X = X.T # (28, 99)
 
     # center data
     mean_feat = X.mean(axis=0) #(99, )
@@ -82,13 +82,15 @@ def camera_PCA(rgbCMF):
     pca = PCA(n_components=2)
     pca.fit(X)
     components = pca.components_ # (2, 99)
+    # print(components.shape)
     eigenvalues = pca.explained_variance_
     # print(pca.explained_variance_ratio_)
     # print(eigenvalues)
     mean = pca.mean_
 
     # get first two principle components
-    PC = np.matmul(components[:2, :].T, np.diag(np.sqrt(eigenvalues)))
+    # PC = np.matmul(components[:2, :].T, np.diag(np.sqrt(eigenvalues)))
+    PC = pca.transform(X)
 
     # print(PC.shape, eigenvalues.shape, mean.shape)
 
@@ -125,3 +127,9 @@ def camera_model(mu, PC, b, wavelength=33):
 if __name__ == '__main__':
     rgbCMF = read_camspec()
     camera_PCA(rgbCMF)
+
+    # TESTING
+    # print(rgbCMF.shape)
+    # loaded = np.array(list(scipy.io.loadmat("utils/rgbCMF.mat")['rgbCMF'][0]))
+    # print(loaded.shape)
+    # print("diff computed & loaded: ", np.sum((rgbCMF - loaded)**2))
