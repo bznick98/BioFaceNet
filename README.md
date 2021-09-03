@@ -2,6 +2,9 @@
 This is a pytorch implementation of the paper: [BioFaceNet: Deep Biophysical Face
 Image Interpretation](https://arxiv.org/pdf/1908.10578.pdf). Either run locally or use BioFaceNet.ipynb for running on Google Colab.
 
+The overall training forward pass is showed in the diagram below:
+![forward-pass](readme-imgs/forward.png)
+
 # Table of Contents
 * 1\. [Introduction](#introduction)
 * 2\. [How to Run](#how-to-run-trainpredict)
@@ -15,6 +18,7 @@ Image Interpretation](https://arxiv.org/pdf/1908.10578.pdf). Either run locally 
     * 3.1\. [Training Setup](#training-setup)
     * 3.2\. [Results Interpretation](#results-interpretation)
     * 3.3\. [More Results](#more-results)
+* 4\. [Potential Improvements](#potential-improvements)
 
 # How to Run (train/predict)
 ### Train
@@ -97,3 +101,6 @@ Near the end of training, the reconstructed image is really close to the origina
 
 ### More Results
 Inference results using my face: ![infer-result](readme-imgs/infer_result.png)
+
+
+# Potential Improvements
