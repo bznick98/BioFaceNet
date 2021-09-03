@@ -1,6 +1,8 @@
 # Introduction
 This is a pytorch implementation of the paper: [BioFaceNet: Deep Biophysical Face
-Image Interpretation](https://arxiv.org/pdf/1908.10578.pdf). Either run locally or use BioFaceNet.ipynb for running on Google Colab.
+Image Interpretation](https://arxiv.org/pdf/1908.10578.pdf). Either run locally or use BioFaceNet.ipynb for running on Google Colab. 
+
+I've implemented the components and the model described in the network, and successfully trained the model. For some of the parts that I did not understand from the paper, I heavily relied on their Matlab implementation. Unfortunately, I did not have enough time to implement the test method using ISET multi-spectral dataset to quantitatively evaluate the performance of the model. Also, I wanna say sorry that I did check an implementation of BioFaceNet and from there I learned how the paper is using a different augmented version of CelebA dataset instead of the regular one. (Sorry I can't unseen that)
 
 The overall training forward pass is showed in the diagram below:
 ![forward-pass](readme-imgs/forward.png)
@@ -19,6 +21,7 @@ The overall training forward pass is showed in the diagram below:
     * 3.2\. [Results Interpretation](#results-interpretation)
     * 3.3\. [More Results](#more-results)
 * 4\. [Potential Improvements](#potential-improvements)
+* 5\. [Some Questions Unsolved](#some-questions-unsolved)
 
 # How to Run (train/predict)
 ### Train
@@ -53,7 +56,7 @@ python train.py  # [with optional args]
 
 #### On Google Colab:
 ```Bash
-# Open BioFaceNet.ipynb using Google Colab
+# Open BioFaceNet.ipynb using Google Colab or use this link: https://colab.research.google.com/drive/1F-91v0OipJ84UWtbKNeHDG8DdptGtEjK?usp=sharing
 """
 BioFaceNet.ipynb is essentially a modified train.py, all the other related code will be pulled from github repo.
 """
@@ -104,3 +107,17 @@ Inference results using my face: ![infer-result](readme-imgs/infer_result.png)
 
 
 # Potential Improvements
+1. Basic data augmentation such as flipping can be applied to the dataset to avoid overfitting since the amount of training samples are small.
+
+2. For melanin maps, it seems like the highlights areas are more focused on visually darker areas such as hair, eyebrows, beard and EVEN shaded areas. To avoid the last situation where melanin predictions are affected by lighting conditions, is it possible to use images with specular and shades removed as input? (Such as the diffuse albedo showed in paper Figure.5)
+
+# Some Questions Unsolved
+1. In Biophysical Skin Model, I did not understand how paper's formula of R(fmel, fblood, lambda) relates to their Matlab implementation, so I just followed their Matlab implementation that bilinearly sample from New_skin_color matrix using fmel & fblood value.
+
+2. There are a couple of matrices that are directly loaded from file in their Matlab implementation, such as rgbCMF.mat, illF.mat, illumA.mat, illumDmeasured.mat, Newskincolour.mat. Except for rgbCMF, which I found the 28 cameras sensitivity dataset and got the same results, I did not know how the other matrices came from.
+
+3. Again for Biophysical Skin Model, the paper says melanin volume is restricted to 1.3% ~ 43%, and haemoglobin volume is restricted to 2% ~ 7%. I don't know how these percentages are reflected on the model's output. Currently the model's output for melanin and haemoglobin are raw numbers, and I only normalize them to 0 ~ 1 when visualizing.
+
+4. Currently, the reconstructed appearance will sometimes shifted to red. I guess it might due to the issues in my color transformation pipeline.
+
+5. In the PCA of Camera Model, I got the same rgbCMF matrix as the Matlab implementation, however, the total explained variance of the first two principle components are like 40%~50%, instead of 97% stated in the paper. There might be some issue in my camera model's PCA implementation.
