@@ -551,7 +551,7 @@ class BioFaceNet(nn.Module):
         plt.pause(7)
         plt.close()
 
-    def visualize_output(self, image, appearance, pred_shading, pred_specular, fmel, fblood, num=1, cmap='cividis'):
+    def visualize_output(self, image, appearance, pred_shading, pred_specular, fmel, fblood, num=1, cmap='cividis', normalize_bio=False):
         """
         visualize actual input image and predicted outputs
         @input:
@@ -591,13 +591,20 @@ class BioFaceNet(nn.Module):
             axes[3].imshow((pred_specular[i]).cpu().detach().numpy().squeeze(), cmap='gray')
             axes[3].axis('off')
 
-            # TEMNormalize to 0...1 when visualizing, no mask when predicting, so this normalization might be a little bit off for real face region
-            axes[4].imshow(((fmel[i] - torch.min(fmel[i]))/(torch.max(fmel[i]) - torch.min(fmel[i]))).cpu().detach().numpy().squeeze(), cmap=cmap)
-            axes[4].axis('off')
+            if not normalize_bio:
+                axes[4].imshow((fmel[i]).cpu().detach().numpy().squeeze(), cmap=cmap)
+                axes[4].axis('off')
 
-            # TEMNormalize to 0...1 when visualizing, no mask when predicting, so this normalization might be a little bit off for real face region
-            axes[5].imshow(((fblood[i] - torch.min(fblood[i]))/(torch.max(fblood[i]) - torch.min(fblood[i]))).cpu().detach().numpy().squeeze(), cmap=cmap)
-            axes[5].axis('off')
+                axes[5].imshow((fblood[i]).cpu().detach().numpy().squeeze(), cmap=cmap)
+                axes[5].axis('off')
+            else:
+                # Normalize to 0...1 when visualizing. No mask when predicting, so this normalization might be a little bit off for face region
+                axes[4].imshow(((fmel[i] - torch.min(fmel[i]))/(torch.max(fmel[i]) - torch.min(fmel[i]))).cpu().detach().numpy().squeeze(), cmap=cmap)
+                axes[4].axis('off')
+
+                # Normalize to 0...1 when visualizing. No mask when predicting, so this normalization might be a little bit off for face region
+                axes[5].imshow(((fblood[i] - torch.min(fblood[i]))/(torch.max(fblood[i]) - torch.min(fblood[i]))).cpu().detach().numpy().squeeze(), cmap=cmap)
+                axes[5].axis('off')
 
         plt.axis('off')
         plt.show()
