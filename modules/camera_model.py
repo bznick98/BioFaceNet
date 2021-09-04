@@ -76,7 +76,7 @@ def camera_PCA(rgbCMF):
     X = X.T # (28, 99)
 
     # center data
-    mean_feat = X.mean(axis=1) #(99, )
+    mean_feat = X.mean(axis=0) #(99, )
     X -= mean_feat # (28, 99)
 
     # print(mean_feat.shape)
