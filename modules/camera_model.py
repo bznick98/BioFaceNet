@@ -73,11 +73,11 @@ def camera_PCA(rgbCMF):
         X[33:66, i] = greenS[:, i] / np.sum(greenS[:, i])
         X[66:99, i] = blueS[:, i] / np.sum(blueS[:, i])
 
-    # X = X.T # (28, 99)
+    X = X.T # (28, 99)
 
     # center data
     mean_feat = X.mean(axis=1) #(99, )
-    # X -= mean_feat # (28, 99)
+    X -= mean_feat # (28, 99)
 
     # print(mean_feat.shape)
 
@@ -91,13 +91,13 @@ def camera_PCA(rgbCMF):
     mean = pca.mean_
 
     # get first two principle components
-    # PC = np.matmul(components[:2, :].T, np.diag(np.sqrt(eigenvalues)))
-    PC = pca.transform(X)
+    PC = np.matmul(components[:2, :].T, np.diag(np.sqrt(eigenvalues)))
+    # PC = pca.transform(X)
 
     # print(PC.shape)
     # print(PC.shape, eigenvalues.shape, mean.shape)
 
-    return torch.Tensor(PC), torch.Tensor(mean_feat), torch.Tensor(eigenvalues)
+    return torch.Tensor(PC), torch.Tensor(mean), torch.Tensor(eigenvalues)
 
 def camera_model(mu, PC, b, wavelength=33):
     """
