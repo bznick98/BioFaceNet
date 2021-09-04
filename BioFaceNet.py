@@ -535,7 +535,7 @@ class BioFaceNet(nn.Module):
             axes[i, 4].imshow((pred_shading[i]*mask[i]).cpu().detach().numpy().squeeze(), cmap='gray')
             axes[i, 4].axis('off')
 
-            axes[i, 5].imshow((pred_specular[i]*mask[i]).cpu().detach().numpy().squeeze())
+            axes[i, 5].imshow(np.moveaxis((pred_specular[i]*mask[i]).cpu().detach().numpy().squeeze(), 0, -1))
             axes[i, 5].axis('off')
 
             # TEMP: Normalize to 0...1 when visualizing
@@ -588,7 +588,7 @@ class BioFaceNet(nn.Module):
             axes[2].imshow((pred_shading[i]).cpu().detach().numpy().squeeze(), cmap='gray')
             axes[2].axis('off')
 
-            axes[3].imshow((pred_specular[i]).cpu().detach().numpy().squeeze())
+            axes[3].imshow(np.moveaxis((pred_specular[i]).cpu().detach().numpy().squeeze(), 0, -1))
             axes[3].axis('off')
 
             if not normalize_bio:
