@@ -383,8 +383,8 @@ class BioFaceNet(nn.Module):
         # however, above element wise mult results in Nx3xHxW
         #   instead of Nx1xHxW indicated in matlab's implementation,
         #   thus convert to grayscale to keep 1 channel (not sure if right)
-        grayscale = transforms.Grayscale()
-        specular = grayscale(specular)
+        # grayscale = transforms.Grayscale()
+        # specular = grayscale(specular)
         return specular
 
     def image_formation(self, R, Sr, Sg, Sb, e, specular, shading):
@@ -535,7 +535,7 @@ class BioFaceNet(nn.Module):
             axes[i, 4].imshow((pred_shading[i]*mask[i]).cpu().detach().numpy().squeeze(), cmap='gray')
             axes[i, 4].axis('off')
 
-            axes[i, 5].imshow((pred_specular[i]*mask[i]).cpu().detach().numpy().squeeze(), cmap='gray')
+            axes[i, 5].imshow((pred_specular[i]*mask[i]).cpu().detach().numpy().squeeze())
             axes[i, 5].axis('off')
 
             # TEMP: Normalize to 0...1 when visualizing
@@ -588,7 +588,7 @@ class BioFaceNet(nn.Module):
             axes[2].imshow((pred_shading[i]).cpu().detach().numpy().squeeze(), cmap='gray')
             axes[2].axis('off')
 
-            axes[3].imshow((pred_specular[i]).cpu().detach().numpy().squeeze(), cmap='gray')
+            axes[3].imshow((pred_specular[i]).cpu().detach().numpy().squeeze())
             axes[3].axis('off')
 
             if not normalize_bio:
