@@ -383,8 +383,8 @@ class BioFaceNet(nn.Module):
         # however, above element wise mult results in Nx3xHxW
         #   instead of Nx1xHxW indicated in matlab's implementation,
         #   thus convert to grayscale to keep 1 channel (not sure if right)
-        # grayscale = transforms.Grayscale()
-        # specular = grayscale(specular)
+        grayscale = transforms.Grayscale()
+        specular = grayscale(specular)
         return specular
 
     def image_formation(self, R, Sr, Sg, Sb, e, specular, shading):
