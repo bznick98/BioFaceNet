@@ -333,8 +333,8 @@ class BioFaceNet(nn.Module):
 
         # apply non-linear gamma correction
         a, gamma = 0.055, 2.4
-        srgb = (1 + a) * torch.pow(rgb_img, 1/gamma) - a
-        return srgb
+        # srgb = (1 + a) * torch.pow(rgb_img, 1/gamma) - a
+        return rgb_img
     
     def light_color(self, e, Sr, Sg, Sb):
         """
