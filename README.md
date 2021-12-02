@@ -1,5 +1,4 @@
 ![](https://visitor-badge.glitch.me/badge?page_id=bznick98.BioFaceNet)
----
 # Table of Contents
 * 1\. [Introduction](#introduction)
 * 2\. [How to Run](#how-to-run-trainpredict)
