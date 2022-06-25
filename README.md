@@ -20,7 +20,7 @@
 This is a pytorch implementation of the paper: [BioFaceNet: Deep Biophysical Face
 Image Interpretation](https://arxiv.org/pdf/1908.10578.pdf). Either run locally or use BioFaceNet.ipynb for running on Google Colab. 
 
-I've implemented the components and the model described in the network, and successfully trained the model. For some of the parts that I did not understand from the paper, I heavily relied on their Matlab implementation. Unfortunately, I did not have enough time to implement the test method using ISET multi-spectral dataset to quantitatively evaluate the performance of the model. Also, I'm sorry that I did check an implementation of BioFaceNet and from there I learned the fact that the paper is using a different augmented version of CelebA dataset instead of the regular one. (Sorry I can't unseen that)
+I've implemented the components and the model described in the network, and successfully trained the model. For some of the parts that I did not understand from the paper, I heavily relied on their Matlab implementation. Unfortunately, I did not have enough time to implement the test method using ISET multi-spectral dataset to quantitatively evaluate the performance of the model. 
 
 The overall training forward pass is showed in the diagram below:
 ![forward-pass](readme-imgs/forward.png)
